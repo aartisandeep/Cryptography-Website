@@ -13,7 +13,6 @@ MD5 and SHA256 Hashes: Generate and download MD5 and SHA256 hashes for files.
 Frontend: HTML, CSS
 Backend: Flask
 Database: SQLAlchemy (for managing users, keys, and files metadata)
-Getting Started
 
 ### Prerequisites:
 Python 3.8+
