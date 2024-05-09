@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Generate Cryptographic Keys</h1>
+<form method="post" action="{{ url_for('generate_keys') }}">
+    <div>
+        <label for="number_of_keys">Number of keys (1-20):</label>
+        <input type="number" id="number_of_keys" name="number_of_keys" min="1" max="20" required>
+    </div>
+    <div>
+        <label for="encryption_type">Encryption Type:</label>
+        <select id="encryption_type" name="encryption_type" required>
+            <option value="AES">AES</option>
+            <option value="DES">DES</option>
+        </select>
+    </div>
+    <div>
+        <input type="submit" value="Generate">
+    </div>
+</form>
+<a href="{{ url_for('profile') }}" class="button">Back to Profile</a>
+
+{% if keys %}
+    <h2>Generated Keys:</h2>
+    <ul>
+    {% for key, type in keys %}
+        <li>{{ key }} ({{ type }})</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}

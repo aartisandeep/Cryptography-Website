@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>My Uploaded Files</h1>
+
+{% if files %}
+    <ul>
+    {% for file in files %}
+        <li>
+            {{ file.filename }}
+            <!-- Link to download the original file -->
+            <a href="{{ url_for('uploaded_file', filename=file.filename) }}">Download Original File</a>
+
+            <!-- Button to delete the file -->
+            <form action="{{ url_for('delete_file', file_id=file.id) }}" method="post" style="display: inline;">
+                <button type="submit">Delete File</button>
+            </form>
+
+            <!-- Display the MD5 hash -->
+            {% if file.md5_hash %}
+                <span>MD5: {{ file.md5_hash }}</span>
+                <!-- Link to download the MD5 hash -->
+                <a href="{{ url_for('download_hash', file_id=file.id) }}">Download MD5 Hash</a>
+            {% endif %}
+
+            <!-- Link to download the SHA256 hash -->
+            {% if file.sha256_hash %}
+                <span>SHA256: {{ file.sha256_hash }}</span>
+                <a href="{{ url_for('download_sha256_hash', file_id=file.id) }}">Download SHA256 Hash</a>
+            {% endif %}
+
+            <!-- Link to download the encrypted file, if it exists -->
+            {% if file.encrypted_filename %}
+                <a href="{{ url_for('download_file', filename=file.encrypted_filename) }}">Download Encrypted File</a>
+            {% endif %}
+
+            <!-- Form to select a key and encrypt the file -->
+            <form action="{{ url_for('encrypt_file', file_id=file.id) }}" method="post">
+                <select name="key_id" required>
+                    {% for key in user_keys %}
+                        <!-- <option value="{{ key.id }}">Key {{ loop.index }}</option> -->
+                        <option value="{{ key.id }}">Key {{ loop.index }} - {{ key.encryption_type }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Encrypt File with DES</button>
+            </form>
+
+            <!-- Form to select a key and decrypt the file, if it is encrypted -->
+            {% if file.encrypted_filename %}
+                <form action="{{ url_for('decrypt_file', file_id=file.id) }}" method="post">
+                    <select name="key_id" required>
+                        {% for key in user_keys %}
+                            <!-- <option value="{{ key.id }}">Key {{ loop.index }}</option> -->
+                            <option value="{{ key.id }}">Key {{ loop.index }} - {{ key.encryption_type }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit">Decrypt File with DES</button>
+                </form>
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+    <a href="{{ url_for('profile') }}" class="button">Back to Profile</a>
+{% else %}
+    <p>You have not uploaded any files.</p>
+{% endif %}
+
+{% endblock %}

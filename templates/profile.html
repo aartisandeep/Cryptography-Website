@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Profile</h1>
+
+<form action="{{ url_for('generate_keys') }}" method="get">
+    <input type="submit" value="Generate Keys">
+</form>
+
+<form action="{{ url_for('my_keys') }}" method="get">
+    <button type="submit">View My Keys</button>
+</form>
+
+<!-- Form to navigate to the upload page -->
+<form action="{{ url_for('upload_file') }}" method="get">
+    <button type="submit">Upload File</button>
+</form>
+
+<!-- Form to navigate to the page displaying the user's files -->
+<form action="{{ url_for('my_files') }}" method="get">
+    <button type="submit">View My Files</button>
+</form>
+
+<!-- Change Password Form -->
+<form method="post" action="{{ url_for('change_password') }}">
+    <h2>Change Password</h2>
+    <input type="password" name="new_password" placeholder="New Password" required>
+    <input type="submit" value="Change Password">
+</form>
+
+<!-- Delete Account Form -->
+<form method="post" action="{{ url_for('delete_account') }}">
+    <h2>Delete Account</h2>
+    <input type="submit" name="delete" value="Delete Account" onclick="return confirm('Are you sure you want to delete your account? This cannot be undone.');">
+</form>
+
+<!-- Logout Form -->
+<form action="{{ url_for('logout') }}" method="get">
+    <button type="submit">Logout</button>
+</form>
+
+
+{% endblock %}
+

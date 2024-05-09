@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>My Keys</h1>
+
+{% if keys %}
+    <ul>
+    {% for key in keys %}
+        <li>{{ key.key }} - {{ key.encryption_type }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>You have no keys generated.</p>
+{% endif %}
+<a href="{{ url_for('profile') }}" class="button">Back to Profile</a>
+{% endblock %}
